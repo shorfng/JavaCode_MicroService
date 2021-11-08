@@ -22,6 +22,7 @@
         <module>resume-service-resume-8080</module>
         <module>resume-service-autodeliver-8081</module>
         <module>cloud-eureka-server-8761</module>
+        <module>cloud-eureka-server-8762</module>
     </modules>
 
     <properties>

@@ -1,6 +1,6 @@
 # eureka server服务端口
 server:
-  port: 8761
+  port: 8762
 
 spring:
   application:
@@ -11,7 +11,7 @@ spring:
 eureka:
   instance:
     # 当前 eureka 实例的主机名
-    hostname: CloudEurekaServerA
+    hostname: CloudEurekaServerB
   client:
     service-url:
       # 配置客户端所交互的 Eureka Server 地址
@@ -19,7 +19,7 @@ eureka:
       # 单机模式下
       # defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
       # 集群模式下，defaultZone 应该指向其它 Eureka Server，如果有更多其它Server实例，逗号拼接即可
-      defaultZone: http://CloudEurekaServerB:8762/eureka
+      defaultZone: http://CloudEurekaServerA:8761/eureka
     # 是否禁止自己当做服务注册（集群模式下，可以改成 true）
     register-with-eureka: true
     # 是否屏蔽注册信息（默认为 true）
