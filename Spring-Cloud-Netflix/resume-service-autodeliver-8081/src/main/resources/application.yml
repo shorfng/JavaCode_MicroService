@@ -1,2 +1,20 @@
 server:
   port: 8081
+
+spring:
+  application:
+    name: resume-service-autodeliver
+
+# 将服务提供者注册到 Eureka 服务中心
+eureka:
+  client:
+    service-url:
+      # 注册到单实例（非集群模式），就写一个就可以
+      # 注册到集群，把多个 Eureka server 地址使用逗号连接起来即可
+      defaultZone: http://CloudEurekaServerA:8761/eureka,http://CloudEurekaServerB:8762/eureka
+  instance:
+    # 服务实例中显示 ip，而不是显示主机名（为了兼容老的 eureka 版本）
+    prefer-ip-address: true
+    # 自定义实例显示格式（加上版本号，便于多版本管理）
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+
