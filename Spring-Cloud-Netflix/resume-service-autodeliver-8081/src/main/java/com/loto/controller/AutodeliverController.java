@@ -54,4 +54,24 @@ public class AutodeliverController {
         Integer forObject = restTemplate.getForObject(url, Integer.class);
         return forObject;
     }
+
+    //http://localhost:8081/autodeliver/metadata
+    /**
+     * 获取 Eureka 元数据
+     */
+    @GetMapping("/metadata")
+    public void testInstanceMetadata() {
+        List<ServiceInstance> instances = discoveryClient.getInstances("resume-service-resume");
+
+        // 自定义的元数据的值
+        System.out.println(instances.get(0).getMetadata().get("cluster"));
+        System.out.println(instances.get(0).getMetadata().get("region"));
+        System.out.println("=============================");
+
+        // 所有实例
+        for (int i = 0; i < instances.size(); i++) {
+            ServiceInstance serviceInstance =  instances.get(i);
+            System.out.println(serviceInstance);
+        }
+    }
 }

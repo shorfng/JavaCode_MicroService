@@ -28,4 +28,6 @@ eureka:
     prefer-ip-address: true
     # 自定义实例显示格式（加上版本号，便于多版本管理）
     instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
-
+    metadata-map:
+      cluster: cl1
+      region: rn1
