@@ -22,22 +22,22 @@ public class AutodeliverController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    //http://localhost:8081/autodeliver/checkState/1545132
+    //http://localhost:8081/autodeliver/checkState1/1545132
     /**
      * 原始写法
      */
-    //@GetMapping("/checkState/{userId}")
-    //public Integer findResumeOpenState(@PathVariable Long userId) {
-    //    // 调用远程服务（简历微服务接口） - RestTemplate
-    //    return restTemplate.getForObject("http://localhost:8080/resume/openstate/" + userId, Integer.class);
-    //}
+    @GetMapping("/checkState1/{userId}")
+    public Integer findResumeOpenState1(@PathVariable Long userId) {
+        // 调用远程服务（简历微服务接口） - RestTemplate
+        return restTemplate.getForObject("http://localhost:8080/resume/openstate/" + userId, Integer.class);
+    }
 
-    //http://localhost:8081/autodeliver/checkState/1545132
+    //http://localhost:8081/autodeliver/checkState2/1545132
     /**
      * 服务注册到 Eureka 之后的改造：从注册中心拿服务实例，进行访问
      */
-    @GetMapping("/checkState/{userId}")
-    public Integer findResumeOpenState(@PathVariable Long userId) {
+    @GetMapping("/checkState2/{userId}")
+    public Integer findResumeOpenState2(@PathVariable Long userId) {
         // 1、从 Eureka Server 中获取 resume-service-resume 服务的实例信息（使用客户端对象做这件事）
         List<ServiceInstance> instances = discoveryClient.getInstances("resume-service-resume");
 
@@ -74,4 +74,17 @@ public class AutodeliverController {
             System.out.println(serviceInstance);
         }
     }
+
+    //http://localhost:8081/autodeliver/checkState3/1545132
+    /**
+     * 使用 Ribbon 负载均衡
+     */
+    @GetMapping("/checkState3/{userId}")
+    public Integer findResumeOpenState3(@PathVariable Long userId) {
+        // 指定服务名
+        String url = "http://resume-service-resume/resume/openstate/" + userId;
+        Integer forObject = restTemplate.getForObject(url, Integer.class);
+        return forObject;
+    }
+
 }

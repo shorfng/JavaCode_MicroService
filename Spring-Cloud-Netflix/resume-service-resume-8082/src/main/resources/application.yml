@@ -1,9 +1,20 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   application:
-    name: resume-service-autodeliver
+    name: resume-service-resume
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/SpringCloud?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: root
+  jpa:
+    database: MySQL
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl  #避免将驼峰命名转换为下划线命名
 
 # 将服务提供者注册到 Eureka 服务中心
 eureka:
@@ -17,9 +28,6 @@ eureka:
     prefer-ip-address: true
     # 自定义实例显示格式（加上版本号，便于多版本管理）
     instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
-
-# 针对的被调用方微服务名称 resume-service-resume（不加 22 行这个服务名称，就是全局生效）
-resume-service-resume:
-  ribbon:
-    # 负载策略调整：使用轮询
-    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+    metadata-map:
+      cluster: cl1
+      region: rn1
