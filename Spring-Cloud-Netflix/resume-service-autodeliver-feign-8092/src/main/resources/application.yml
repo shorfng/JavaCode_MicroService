@@ -1,0 +1,82 @@
+server:
+  port: 8092
+
+spring:
+  application:
+    name: resume-service-autodeliver
+
+# springboot 中暴露健康检查等断点接口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  # 暴露健康接口的细节
+  endpoint:
+    health:
+      show-details: always
+
+# 将服务提供者注册到 Eureka 服务中心
+eureka:
+  client:
+    service-url:
+      # 注册到单实例（非集群模式），就写一个就可以
+      # 注册到集群，把多个 Eureka server 地址使用逗号连接起来即可
+      defaultZone: http://CloudEurekaServerA:8761/eureka,http://CloudEurekaServerB:8762/eureka
+  instance:
+    # 服务实例中显示 ip，而不是显示主机名（为了兼容老的 eureka 版本）
+    prefer-ip-address: true
+    # 自定义实例显示格式（加上版本号，便于多版本管理）
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+
+# 针对的被调用方微服务名称 resume-service-resume（不加 33 行这个服务名称，就是全局生效）
+resume-service-resume:
+  ribbon:
+    # 负载策略调整：使用轮询
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+    ###############################  以下是 Feign 对负载均衡 Ribbon 的支持 ###############################
+    # 请求连接超时时间
+    ConnectTimeout: 2000
+    # 请求处理超时时间（Feign 超时时长设置）
+    ReadTimeout: 5000
+    # 对所有操作都进行重试
+    OkToRetryOnAllOperations: true
+    #### 根据如上配置，当访问到故障请求的时候，它会再尝试访问一次当前实例（次数由 MaxAutoRetries 配置）
+    #### 如果不行，就换一个实例进行访问，如果还不行，再换一次实例访问（更换次数由 MaxAutoRetriesNextServer 配置）
+    #### 如果依然不行，返回失败信息
+    MaxAutoRetries: 0             # 对当前选中实例重试次数，不包括第一次调用
+    MaxAutoRetriesNextServer: 0   # 切换实例的重试次数
+
+# Feign 对熔断器 Hystrix 的支持
+feign:
+  hystrix:
+    # 开启 Feign 的熔断功能
+    enabled: true
+  # Feign 对请求压缩和响应压缩的支持
+  compression:
+    request:
+      # 开启请求压缩
+      enabled: true
+      # 设置压缩的数据类型，此处也是默认值
+      mime-types: text/html,application/xml,application/json
+      # 设置触发压缩的大小下限，此处也是默认值
+      min-request-size: 2048
+    response:
+      # 开启响应压缩
+      enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # Hystrix 超时时长设置
+            timeoutInMilliseconds: 15000
+
+# Feign 日志级别配置
+logging:
+  level:
+    # Feign 日志只会对日志级别为 debug 的做出响应
+    com.lagou.edu.controller.service.ResumeServiceFeignClient: debug
+
