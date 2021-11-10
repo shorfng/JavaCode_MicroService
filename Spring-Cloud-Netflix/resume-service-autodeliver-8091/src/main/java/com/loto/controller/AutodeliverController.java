@@ -24,8 +24,7 @@ public class AutodeliverController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    //http://localhost:8081/autodeliver/checkState1/1545132
-
+    //http://localhost:8091/autodeliver/checkState1/1545132
     /**
      * 原始写法
      */
@@ -35,8 +34,7 @@ public class AutodeliverController {
         return restTemplate.getForObject("http://localhost:8080/resume/openstate/" + userId, Integer.class);
     }
 
-    //http://localhost:8081/autodeliver/checkState2/1545132
-
+    //http://localhost:8091/autodeliver/checkState2/1545132
     /**
      * 服务注册到 Eureka 之后的改造：从注册中心拿服务实例，进行访问
      */
@@ -59,8 +57,7 @@ public class AutodeliverController {
         return forObject;
     }
 
-    //http://localhost:8081/autodeliver/metadata
-
+    //http://localhost:8091/autodeliver/metadata
     /**
      * 获取 Eureka 元数据
      */
@@ -80,7 +77,7 @@ public class AutodeliverController {
         }
     }
 
-    //http://localhost:8081/autodeliver/checkState3/1545132
+    //http://localhost:8091/autodeliver/checkState3/1545132
     /**
      * 使用 Ribbon 负载均衡
      */

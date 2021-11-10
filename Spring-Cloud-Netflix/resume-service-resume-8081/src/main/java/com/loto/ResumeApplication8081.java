@@ -14,8 +14,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 // 方式2：开启注册中心客户端 （通用型注解，使用Eureka或者Nacos等作为注册中心时使用）
 @EnableDiscoveryClient
-public class ResumeApplication8082 {
+public class ResumeApplication8081 {
     public static void main(String[] args) {
-        SpringApplication.run(ResumeApplication8082.class,args);
+        SpringApplication.run(ResumeApplication8081.class,args);
     }
 }

@@ -4,7 +4,6 @@ import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServl
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -18,9 +17,9 @@ import org.springframework.web.client.RestTemplate;
 
 // 综合性的注解：@SpringCloudApplication  = @SpringBootApplication + @EnableDiscoveryClient + @EnableCircuitBreaker
 //@SpringCloudApplication
-public class AutodeliverApplication8081 {
+public class AutodeliverApplication8091 {
     public static void main(String[] args) {
-        SpringApplication.run(AutodeliverApplication8081.class, args);
+        SpringApplication.run(AutodeliverApplication8091.class, args);
     }
 
     // 使用 RestTemplate 模板对象进行远程调用

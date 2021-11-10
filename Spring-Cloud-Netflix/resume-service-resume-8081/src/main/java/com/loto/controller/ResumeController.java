@@ -24,7 +24,7 @@ public class ResumeController {
     @Value("${server.port}")
     private Integer port;
 
-    //http://localhost:8080/resume/openstate/1545132
+    //http://localhost:8081/resume/openstate/1545132
     @GetMapping("/openstate/{userId}")
     public Integer findDefaultResumeState(@PathVariable Long userId) {
         //return resumeService.findDefaultResumeByUserId(userId).getIsOpenResume();

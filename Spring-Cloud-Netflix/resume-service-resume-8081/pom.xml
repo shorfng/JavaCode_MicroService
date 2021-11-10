@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>resume-service-autodeliver-8081</artifactId>
+    <artifactId>resume-service-resume-8081</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -17,22 +17,16 @@
     </properties>
 
     <dependencies>
-        <!--<dependency>
+        <dependency>
             <groupId>com.loto</groupId>
             <artifactId>resume-service-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>-->
+        </dependency>
 
         <!-- eureka client 客户端依赖引入-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
-        <!-- 熔断器 Hystrix -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
     </dependencies>
 
