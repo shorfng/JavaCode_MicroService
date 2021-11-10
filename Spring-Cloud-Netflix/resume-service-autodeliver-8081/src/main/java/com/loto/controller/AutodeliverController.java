@@ -1,5 +1,7 @@
 package com.loto.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -23,6 +25,7 @@ public class AutodeliverController {
     private DiscoveryClient discoveryClient;
 
     //http://localhost:8081/autodeliver/checkState1/1545132
+
     /**
      * 原始写法
      */
@@ -33,6 +36,7 @@ public class AutodeliverController {
     }
 
     //http://localhost:8081/autodeliver/checkState2/1545132
+
     /**
      * 服务注册到 Eureka 之后的改造：从注册中心拿服务实例，进行访问
      */
@@ -56,6 +60,7 @@ public class AutodeliverController {
     }
 
     //http://localhost:8081/autodeliver/metadata
+
     /**
      * 获取 Eureka 元数据
      */
@@ -70,7 +75,7 @@ public class AutodeliverController {
 
         // 所有实例
         for (int i = 0; i < instances.size(); i++) {
-            ServiceInstance serviceInstance =  instances.get(i);
+            ServiceInstance serviceInstance = instances.get(i);
             System.out.println(serviceInstance);
         }
     }
@@ -87,4 +92,67 @@ public class AutodeliverController {
         return forObject;
     }
 
+
+    /**
+     * 提供者模拟处理超时，调用方法添加 Hystrix 控制
+     */
+    // 使用 @HystrixCommand 注解进行熔断控制
+    @HystrixCommand(
+            // 线程池标识，要保持唯一，不唯一的话就共用了
+            threadPoolKey = "findResumeOpenState4",
+
+            // 线程池细节属性配置
+            threadPoolProperties = {
+                    @HystrixProperty(name = "coreSize", value = "1"),     // 线程数
+                    @HystrixProperty(name = "maxQueueSize", value = "20") // 等待队列长度
+            },
+
+            // 熔断的一些细节属性配置
+            commandProperties = {
+                    // 每一个属性都是一个 HystrixProperty
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
+            }
+    )
+    @GetMapping("/checkState4/{userId}")
+    public Integer findResumeOpenState4(@PathVariable Long userId) {
+        // 指定服务名
+        String url = "http://resume-service-resume/resume/openstate/" + userId;
+        Integer forObject = restTemplate.getForObject(url, Integer.class);
+        return forObject;
+    }
+
+    /**
+     * 服务降级（熔断后回退，返回预设默认值）
+     */
+    @HystrixCommand(
+            // 线程池标识，要保持唯一，不唯一的话就共用了
+            threadPoolKey = "findResumeOpenState5",
+
+            // 线程池细节属性配置
+            threadPoolProperties = {
+                    @HystrixProperty(name = "coreSize", value = "2"), // 线程数
+                    @HystrixProperty(name = "maxQueueSize", value = "20") // 等待队列长度
+            },
+
+            // 熔断的一些细节属性配置
+            commandProperties = {
+                    // 每一个属性都是一个 HystrixProperty
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
+            },
+            fallbackMethod = "myFallBack"  // 回退方法
+    )
+    @GetMapping("/checkState5/{userId}")
+    public Integer findResumeOpenState5(@PathVariable Long userId) {
+        // 指定服务名
+        String url = "http://resume-service-resume/resume/openstate/" + userId;
+        Integer forObject = restTemplate.getForObject(url, Integer.class);
+        return forObject;
+    }
+
+    /**
+     * 定义回退方法，返回预设默认值（该方法形参和返回值与原始方法保持一致）
+     */
+    public Integer myFallBack(Long userId) {
+        return -123333; // 兜底数据
+    }
 }

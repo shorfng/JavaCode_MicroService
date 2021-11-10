@@ -27,6 +27,13 @@ public class ResumeController {
     //http://localhost:8080/resume/openstate/1545132
     @GetMapping("/openstate/{userId}")
     public Integer findDefaultResumeState(@PathVariable Long userId) {
+        // 模拟处理超时
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         //return resumeService.findDefaultResumeByUserId(userId).getIsOpenResume();
         return port;
     }
