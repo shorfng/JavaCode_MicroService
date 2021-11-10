@@ -92,21 +92,11 @@ public class AutodeliverController {
         return forObject;
     }
 
-
     /**
-     * 提供者模拟处理超时，调用方法添加 Hystrix 控制
+     * Hystrix 使用 - 跳闸机制
      */
     // 使用 @HystrixCommand 注解进行熔断控制
     @HystrixCommand(
-            // 线程池标识，要保持唯一，不唯一的话就共用了
-            threadPoolKey = "findResumeOpenState4",
-
-            // 线程池细节属性配置
-            threadPoolProperties = {
-                    @HystrixProperty(name = "coreSize", value = "1"),     // 线程数
-                    @HystrixProperty(name = "maxQueueSize", value = "20") // 等待队列长度
-            },
-
             // 熔断的一些细节属性配置
             commandProperties = {
                     // 每一个属性都是一个 HystrixProperty
@@ -122,18 +112,9 @@ public class AutodeliverController {
     }
 
     /**
-     * 服务降级（熔断后回退，返回预设默认值）
+     * Hystrix 使用 - 回退机制（熔断后回退，返回预设默认值）
      */
     @HystrixCommand(
-            // 线程池标识，要保持唯一，不唯一的话就共用了
-            threadPoolKey = "findResumeOpenState5",
-
-            // 线程池细节属性配置
-            threadPoolProperties = {
-                    @HystrixProperty(name = "coreSize", value = "2"), // 线程数
-                    @HystrixProperty(name = "maxQueueSize", value = "20") // 等待队列长度
-            },
-
             // 熔断的一些细节属性配置
             commandProperties = {
                     // 每一个属性都是一个 HystrixProperty
@@ -150,11 +131,46 @@ public class AutodeliverController {
     }
 
     /**
-     * 熔断策略（跳闸后自我修复）
+     * 定义回退方法，返回预设默认值（该方法形参和返回值与原始方法保持一致）
+     */
+    public Integer myFallBack(Long userId) {
+        return -123333; // 兜底数据
+    }
+
+    /**
+     * Hystrix 使用 - 舱壁模式（线程池隔离策略)
      */
     @HystrixCommand(
             // 线程池标识，要保持唯一，不唯一的话就共用了
-            threadPoolKey = "findResumeOpenState5",
+            threadPoolKey = "findResumeOpenState6",
+
+            // 线程池细节属性配置
+            threadPoolProperties = {
+                    @HystrixProperty(name = "coreSize", value = "2"), // 线程数
+                    @HystrixProperty(name = "maxQueueSize", value = "20") // 等待队列长度
+            },
+
+            // 熔断的一些细节属性配置
+            commandProperties = {
+                    // 每一个属性都是一个 HystrixProperty
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
+            },
+            fallbackMethod = "myFallBack"  // 回退方法
+    )
+    @GetMapping("/checkState6/{userId}")
+    public Integer findResumeOpenState6(@PathVariable Long userId) {
+        // 指定服务名
+        String url = "http://resume-service-resume/resume/openstate/" + userId;
+        Integer forObject = restTemplate.getForObject(url, Integer.class);
+        return forObject;
+    }
+
+    /**
+     * Hystrix 使用 - 熔断策略（跳闸后自我修复）
+     */
+    @HystrixCommand(
+            // 线程池标识，要保持唯一，不唯一的话就共用了
+            threadPoolKey = "findResumeOpenState7",
 
             // 线程池细节属性配置
             threadPoolProperties = {
@@ -170,28 +186,21 @@ public class AutodeliverController {
                     // Hystrix 熔断策略（高级配置，定制工作过程细节）
                     // 8秒钟内，请求次数达到2个，并且失败率在50%以上，就跳闸，跳闸后活动窗⼝设置为3s
                     // 统计时间窗口定义
-                    @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds",value = "8000"),
+                    @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "8000"),
                     // 统计时间窗口内的最小请求数
-                    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "2"),
+                    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2"),
                     // 统计时间窗口内的错误数量百分比阈值
-                    @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage",value = "50"),
+                    @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
                     // 自我修复时的活动窗口长度
-                    @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds",value = "3000")
+                    @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "3000")
             },
             fallbackMethod = "myFallBack"  // 回退方法
     )
-    @GetMapping("/checkState6/{userId}")
-    public Integer findResumeOpenState6(@PathVariable Long userId) {
+    @GetMapping("/checkState7/{userId}")
+    public Integer findResumeOpenState7(@PathVariable Long userId) {
         // 指定服务名
         String url = "http://resume-service-resume/resume/openstate/" + userId;
         Integer forObject = restTemplate.getForObject(url, Integer.class);
         return forObject;
-    }
-
-    /**
-     * 定义回退方法，返回预设默认值（该方法形参和返回值与原始方法保持一致）
-     */
-    public Integer myFallBack(Long userId) {
-        return -123333; // 兜底数据
     }
 }
