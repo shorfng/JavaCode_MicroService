@@ -20,15 +20,21 @@
     <modules>
         <module>resume-service-common</module>
 
-        <module>resume-service-autodeliver-8081</module>
+        <!-- 服务消费者（自动投递微服务）-->
+        <module>resume-service-autodeliver-8090</module>
+        <module>resume-service-autodeliver-8091</module>
 
+        <!-- 服务提供者（简历微服务）-->
         <module>resume-service-resume-8080</module>
-        <module>resume-service-resume-8082</module>
+        <module>resume-service-resume-8081</module>
 
+        <!-- 服务注册中心 -->
         <module>cloud-eureka-server-8761</module>
         <module>cloud-eureka-server-8762</module>
 
+        <!-- 熔断器 监控 -->
         <module>cloud-hystrix-dashboard-9000</module>
+        <module>cloud-hystrix-turbine-9001</module>
     </modules>
 
     <properties>
