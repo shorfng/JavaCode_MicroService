@@ -42,6 +42,7 @@
         <!-- Stream消息驱动组件 -->
         <module>cloud-stream-producer-9090</module>
         <module>cloud-stream-consumer-9091</module>
+        <module>cloud-stream-consumer-9092</module>
     </modules>
 
     <properties>

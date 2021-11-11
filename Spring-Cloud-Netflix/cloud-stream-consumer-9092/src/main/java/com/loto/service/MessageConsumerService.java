@@ -9,6 +9,6 @@ import org.springframework.messaging.Message;
 public class MessageConsumerService {
     @StreamListener(Sink.INPUT)
     public void receiveMessages(Message<String> message) {
-        System.out.println("========= 9091接收到的消息：" + message);
+        System.out.println("========= 9092接收到的消息：" + message);
     }
 }
