@@ -38,6 +38,10 @@
         <module>resume-service-autodeliver-8090</module>
         <module>resume-service-autodeliver-8091</module>
         <module>resume-service-autodeliver-feign-8092</module>
+
+        <!-- Stream消息驱动组件 -->
+        <module>cloud-stream-producer-9090</module>
+        <module>cloud-stream-consumer-9091</module>
     </modules>
 
     <properties>
