@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 定义全局过滤器，会对所有路由生效
+ * GlobalFilter：自定义全局过滤器，会对所有路由生效
  */
 @Slf4j
 @Component  // 让容器扫描到，等同于注册了

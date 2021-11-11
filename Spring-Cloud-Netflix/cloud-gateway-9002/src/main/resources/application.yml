@@ -23,7 +23,7 @@ Spring:
           uri: lb://resume-service-resume
           predicates:
             - Path=/resume/**
-          # 过滤器
+          # 过滤器（GateWayFilter：会对单个路由生效）
           # filters:
             # 作用：去掉 url 中的占位后转发路由（这里1表示去掉第一个占位字符串）
             #- StripPrefix=1
