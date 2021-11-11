@@ -27,6 +27,9 @@
         <module>cloud-hystrix-dashboard-9000</module>
         <module>cloud-hystrix-turbine-9001</module>
 
+        <!-- 配置中心 -->
+        <module>cloud-config-server-9003</module>
+
         <!-- 服务提供者（简历微服务）-->
         <module>resume-service-resume-8080</module>
         <module>resume-service-resume-8081</module>
