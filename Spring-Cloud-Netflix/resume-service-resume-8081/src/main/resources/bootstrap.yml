@@ -15,6 +15,16 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl  #避免将驼峰命名转换为下划线命名
+  cloud:
+    # config 客户端配置（和 cloud-config-server-9003 通信，并告知希望获取的配置信息在哪个文件中）
+    config:
+      # git 上的配置文件名称
+      name: resume-service-resume
+      profile: dev  # 后缀名称
+      label: main   # 分支名称
+      # cloud-config-server 配置中心地址
+      uri: http://localhost:9003
+
 
 # 将服务提供者注册到 Eureka 服务中心
 eureka:
