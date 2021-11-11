@@ -30,6 +30,8 @@ spring:
           content-type: text/plain
           # 关联 MQ 服务
           binder: TDRabbitBinder
+          # 多个消费者实例配置为同⼀个 group 名称，能解决消息重复消费问题
+          group: tdgroup01
 
 # 将服务提供者注册到 Eureka 服务中心
 eureka:
