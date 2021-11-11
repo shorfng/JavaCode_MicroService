@@ -1,0 +1,45 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: cloud-stream-producer
+  cloud:
+    stream:
+      binders: # 绑定 MQ服务信息（此是 RabbitMQ）
+        # 自定义 Binder 名称，用于后面的关联
+        TDRabbitBinder:
+          # MQ 类型，如果是 Kafka，此处配置 kafka
+          type: rabbit
+          # MQ 环境配置（用户名、密码等）
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+      # 关联整合通道和 binder对象
+      bindings:
+        # 定义的通道名称，此处不能乱改
+        output:
+          # 要使用的Exchange名称（消息队列主题名称）
+          destination: TDExchange
+          # 消息类型设置
+          # content-type: application/json
+          content-type: text/plain
+          # 关联 MQ 服务
+          binder: TDRabbitBinder
+
+# 将服务提供者注册到 Eureka 服务中心
+eureka:
+  client:
+    service-url:
+      # 注册到单实例（非集群模式），就写一个就可以
+      # 注册到集群，把多个 Eureka server 地址使用逗号连接起来即可
+      defaultZone: http://CloudEurekaServerA:8761/eureka,http://CloudEurekaServerB:8762/eureka
+  instance:
+    # 服务实例中显示 ip，而不是显示主机名（为了兼容老的 eureka 版本）
+    prefer-ip-address: true
+    # 自定义实例显示格式（加上版本号，便于多版本管理）
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
