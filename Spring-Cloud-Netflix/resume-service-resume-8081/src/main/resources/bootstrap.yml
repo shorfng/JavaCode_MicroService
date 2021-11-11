@@ -24,6 +24,11 @@ spring:
       label: main   # 分支名称
       # cloud-config-server 配置中心地址
       uri: http://localhost:9003
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
 
 
 # 将服务提供者注册到 Eureka 服务中心
