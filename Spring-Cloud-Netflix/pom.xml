@@ -43,6 +43,9 @@
         <module>cloud-stream-producer-9090</module>
         <module>cloud-stream-consumer-9091</module>
         <module>cloud-stream-consumer-9092</module>
+
+        <!-- 链路追踪 - Zipkin -->
+        <module>cloud-zipkin-server-9411</module>
     </modules>
 
     <properties>

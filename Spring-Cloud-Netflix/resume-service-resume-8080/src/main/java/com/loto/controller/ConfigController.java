@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * config 配置中心的配置信息
  */
-@RestController
-@RequestMapping("/config")
-@RefreshScope
+//@RestController
+//@RequestMapping("/config")
+//@RefreshScope
 public class ConfigController {
     @Value("${mysql.url}")
     private String mysqlUrl;

@@ -27,6 +27,18 @@ Spring:
           # filters:
             # 作用：去掉 url 中的占位后转发路由（这里1表示去掉第一个占位字符串）
             #- StripPrefix=1
+  zipkin:
+    # zipkin server 的请求地址
+    base-url: http://127.0.0.1:9411
+    sender:
+      # web：客户端将踪迹日志数据通过网络请求的方式传送到服务端
+      # kafka/rabbit：客户端将踪迹日志数据传递到 mq 进行中转
+      type: web
+  sleuth:
+    sampler:
+      # 采样率（1 代表 100% 全部采集）（默认0.1 代表 10% 的请求踪迹数据会被采集）
+      # 生产环境下，请求量非常大，没有必要所有请求的踪迹数据都采集分析，对于网络包括server端压力都是比较大的，可以配置采样率采集一定比例的请求的踪迹数据进行分析即可
+      probability: 1
 
 # 将服务提供者注册到 Eureka 服务中心
 eureka:

@@ -11,9 +11,9 @@ Spring:
           # 配置 git 服务地址
           uri: https://gitee.com/shorfng/cloud-config-repo.git
           # 配置 git 用户名
-          username: xxxxx
+          username: shorfng@126.com
           # 配置 git 密码
-          password: xxxxx
+          password: Freefree1007
           search-paths:
             - cloud-config-repo
       # 读取 git 分支

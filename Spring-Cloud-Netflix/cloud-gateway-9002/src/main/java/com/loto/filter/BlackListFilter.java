@@ -26,7 +26,7 @@ public class BlackListFilter implements GlobalFilter, Ordered {
 
     static {
         // 模拟本机地址
-        blackList.add("0:0:0:0:0:0:0:1");
+        //blackList.add("0:0:0:0:0:0:0:1");
     }
 
     /**
