@@ -41,4 +41,8 @@ eureka:
     # 自定义实例显示格式（加上版本号，便于多版本管理）
     instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
 
-
+# 分布式链路追踪 Sleuth
+logging:
+  level:
+    org.springframework.web.servlet.DispatcherServlet: debug
+    org.springframework.cloud.sleuth: debug

@@ -50,3 +50,9 @@ management:
         # include: refresh
         # *表示暴露所有端口
         include: "*"
+
+# 分布式链路追踪 Sleuth
+logging:
+  level:
+    org.springframework.web.servlet.DispatcherServlet: debug
+    org.springframework.cloud.sleuth: debug

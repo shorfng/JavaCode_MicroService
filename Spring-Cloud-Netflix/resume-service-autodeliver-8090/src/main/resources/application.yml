@@ -34,3 +34,9 @@ resume-service-resume:
   ribbon:
     # 负载策略调整：使用轮询
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+
+# 分布式链路追踪 Sleuth
+logging:
+  level:
+    org.springframework.web.servlet.DispatcherServlet: debug
+    org.springframework.cloud.sleuth: debug
