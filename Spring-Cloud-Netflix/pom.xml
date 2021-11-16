@@ -46,6 +46,12 @@
 
         <!-- 链路追踪 - Zipkin -->
         <module>cloud-zipkin-server-9411</module>
+
+        <!-- 认证服务器 Spring Cloud OAuth2 + JWT -->
+        <module>cloud-oauth2-server-9999</module>
+
+        <!-- 资源服务器 Spring Cloud OAuth2 + JWT -->
+        <module>resume-service-autodeliver-oauth2-8093</module>
     </modules>
 
     <properties>
