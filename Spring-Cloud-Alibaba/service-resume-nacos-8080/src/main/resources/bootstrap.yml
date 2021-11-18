@@ -1,0 +1,63 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: service-resume-nacos
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/SpringCloud?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: root
+  jpa:
+    database: MySQL
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl  #避免将驼峰命名转换为下划线命名
+  # nacos 配置
+  cloud:
+    nacos:
+      # nacos discovery 服务注册中心
+      discovery:
+        # 集群节点信息
+        #server-addr: 127.0.0.1:8851,127.0.0.1:8852,127.0.0.1:8853
+        # 集群名称（默认为 default）
+        #cluster-name: TD
+
+        # 单机模式
+        server-addr: 127.0.0.1:8848
+        namespace: 42f37f6d-341a-49cb-87dc-35cb592c25aa   # 命名空间id
+
+      # nacos config 服务配置中心
+      config:
+        # 集群节点信息
+        #server-addr: 127.0.0.1:8851,127.0.0.1:8852,127.0.0.1:8853
+
+        # 单机模式
+        server-addr: 127.0.0.1:8848
+        namespace: 42f37f6d-341a-49cb-87dc-35cb592c25aa   # 命名空间id
+        group: DEFAULT_GROUP   # 默认分组为 DEFAULT_GROUP，如果使用默认分组可以不配置
+        # 根据规则拼接 dataId：${prefix}-${spring.profile.active}.${file-extension}
+        # service-resume-nacos.yaml
+        file-extension: yaml   # 文件扩展名，默认 properties
+
+        # 关于优先级：根据规则生成的 dataId > 扩展的 dataId（对于扩展的 dataId，n越⼤优先级越高）
+        # 扩展 dataId 配置信息（可配置多个 dataId）
+        ext-config[0]:
+          data-id: abc.yaml
+          group: DEFAULT_GROUP
+          refresh: true  # 开启扩展 dataId 动态刷新
+        ext-config[1]:
+          data-id: def.yaml
+          group: DEFAULT_GROUP
+          refresh: true  # 开启扩展 dataId 动态刷新
+
+# 暴露通信端口
+management:
+  endpoints:
+    web:
+      exposure:
+        # include: refresh
+        # *表示暴露所有端口
+        include: "*"

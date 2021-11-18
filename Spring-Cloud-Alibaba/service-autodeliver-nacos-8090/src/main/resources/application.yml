@@ -1,0 +1,36 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: service-autodeliver-nacos
+  cloud:
+    # nacos 配置
+    nacos:
+      # nacos discovery 服务注册中心
+      discovery:
+        # 集群节点信息
+        #server-addr: 127.0.0.1:8851,127.0.0.1:8852,127.0.0.1:8853
+        # 集群名称（默认为 default）
+        #cluster-name: TD
+
+        # 单机模式
+        server-addr: 127.0.0.1:8848
+        namespace: 42f37f6d-341a-49cb-87dc-35cb592c25aa   # 命名空间id
+
+# springboot 中暴露健康检查等断点接口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  # 暴露健康接口的细节
+  endpoint:
+    health:
+      show-details: always
+
+# 针对的被调用方微服务名称 resume-service-resume（不加 22 行这个服务名称，就是全局生效）
+resume-service-resume:
+  ribbon:
+    # 负载策略调整：使用轮询
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
