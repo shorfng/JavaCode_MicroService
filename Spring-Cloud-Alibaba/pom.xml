@@ -23,6 +23,7 @@
 
         <!-- 服务消费者 -->
         <module>service-autodeliver-nacos-8090</module>
+        <module>service-autodeliver-nacos-8091-sentinel</module>
     </modules>
 
     <properties>
