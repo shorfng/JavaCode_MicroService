@@ -80,9 +80,9 @@ public class AutodeliverController {
     @SentinelResource(
             value = "findResumeOpenState5",
             blockHandlerClass = SentinelHandlersClass.class,
-            blockHandler = "handleException",
+            blockHandler = "handleException",   // ⽤来指定不满⾜ Sentinel 规则的降级兜底⽅法
             fallbackClass = SentinelHandlersClass.class,
-            fallback = "handleError")
+            fallback = "handleError")           // ⽤于指定 Java 运⾏时异常兜底⽅法
     @GetMapping("/checkState5/{userId}")
     public Integer findResumeOpenState5(@PathVariable Long userId) {
         Integer defaultResumeState = resumeServiceFeignClient.findDefaultResumeState(userId);
