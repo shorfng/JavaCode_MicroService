@@ -20,10 +20,15 @@
         <!-- 服务提供者 -->
         <module>service-resume-nacos-8080</module>
         <module>service-resume-nacos-8081</module>
+        <module>service-resume-nacos-8082-sentinel-dubbo</module>    <!-- Nacos + Sentinel + Dubbo 整合 -->
 
         <!-- 服务消费者 -->
         <module>service-autodeliver-nacos-8090</module>
         <module>service-autodeliver-nacos-8091-sentinel</module>
+        <module>service-autodeliver-nacos-8092-sentinel-dubbo</module> <!-- Nacos + Sentinel + Dubbo 整合 -->
+
+        <!-- dubbo 服务接口 -->
+        <module>service-dubbo-api</module>
     </modules>
 
     <properties>
@@ -93,11 +98,11 @@
         </dependency>
 
         <!--热部署-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
-        </dependency>
+        </dependency>-->
 
         <!-- spring cloud commons模块引入-->
         <dependency>
