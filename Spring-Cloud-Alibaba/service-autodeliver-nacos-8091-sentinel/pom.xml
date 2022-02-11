@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>service-autodeliver-nacos-sentinel-8091</artifactId>
+    <artifactId>service-autodeliver-nacos-8091-sentinel</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
